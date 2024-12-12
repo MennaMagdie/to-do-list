@@ -1,92 +1,75 @@
-
-const taskListContainer = document.querySelector("#taskListContainer");
 const selectedForm = document.forms.taskForm;
+const taskListContainer = document.querySelector("#taskListContainer");
+
+const tasks = JSON.parse(localStorage.getItem("tasks"));
+let taskList = tasks || []; //stores all task values read from DOM
 
 
-const tasksFromLocalStorage = localStorage.getItem("tasks");
+selectedForm.addEventListener("submit", (e) => {
+    e.preventDefault(); //tried removing
+    newTaskHandler();
+});
 
-const tasks = JSON.parse(tasksFromLocalStorage);
+updateDOM(); //why standalone?
 
-let taskList = tasks || [];
+function newTaskHandler() {
+    const taskContent = selectedForm["name-task"].value; //value di eh eldtype bta3etha?
+    taskList.push(taskContent);
+    update();
 
-//  initial step
-
-// update DOM with the current list
-
-function updateTaskList() {
-  taskListContainer.innerHTML = "";
-
-  taskList.forEach((task) => {
-    renderTaskItem(task);
-  });
-}
-
-function updateLocalStorage() {
-  localStorage.setItem("tasks", JSON.stringify(taskList));
+    selectedForm["name-task"].value = ""; //tried removing
 }
 
 function update() {
-  updateTaskList(); // render the updated task list
-  updateLocalStorage(); // save updated task list to the DOM
+    updateDOM();
+    updateLocalStorage();
 }
 
-updateTaskList();
-
-
-function deleteTaskItem(task) {
-  taskList = taskList.filter((x) => x !== task);
-
-  update();
+function updateLocalStorage() {
+    localStorage.setItem("tasks", JSON.stringify(taskList));
 }
 
-function renderTaskItem(task) {
+function updateDOM() {
+    taskListContainer.innerHTML = "";
 
-  const newTaskElement = document.createElement("p");
-  newTaskElement.innerText = task;
-  newTaskElement.className = "task-item";
-
-  const deleteBtn = document.createElement("button");
-  deleteBtn.innerText = "Delete";
-  deleteBtn.addEventListener("click", () => {
-    deleteTaskItem(task);
-  });
-
-  newTaskElement.append(deleteBtn);
-
-  taskListContainer.prepend(newTaskElement);
+    taskList.forEach((task) => {
+        renderTask(task);
+    });
 }
 
-function newTaskHandler() {
-  const selectedInput = selectedForm["name-task"];
-  const taskValue = selectedInput.value;
-  taskList.push(taskValue);
+function renderTask(task) {
+    const newElement = document.createElement("p");
+    newElement.innerText = task;
+    newElement.className = "task-item";
 
-  update();
-  selectedInput.value = "";
+
+    const updateButton = document.createElement("button");
+    updateButton.innerText = "Update";
+    updateButton.className = "update-task";
+    updateButton.addEventListener("click", (e) => {
+        updateTaskValue(task);
+    });
+    newElement.append(updateButton);
+
+
+    const deleteButton = document.createElement("button");
+    deleteButton.innerText = "Delete";
+    deleteButton.className = "delete-task";
+    newElement.append(deleteButton);
+    deleteButton.addEventListener("click", (e) => {
+        deleteTask(task);
+    });
+
+    taskListContainer.prepend(newElement);
+    
 }
 
-selectedForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  newTaskHandler();
-});
+function deleteTask(task) {
+    taskList = taskList.filter((x) => x !== task);
+    update();
+}
 
-window.addEventListener("offline", (e) => {
-  console.log("offline");
-  const barItem = document.querySelector(".status-bar");
-  barItem.classList.add("offline");
-});
-
-window.addEventListener("online", (e) => {
-  const barItem = document.querySelector(".status-bar");
-  barItem.classList.add("online");
-  barItem.classList.remove("offline");
-});
-
-
-const worker = new Worker("worker.js");
-
-worker.postMessage({ type: "calculate", data: 1000 });
-
-worker.onmessage = function (e) {
-  console.log("Result from worker:", e.data);
-};
+function updateTaskValue(task) {
+    taskList = taskList.filter((x) => x !== task);
+    newTaskHandler();
+}

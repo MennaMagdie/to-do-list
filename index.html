@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,25 +13,31 @@
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
+
   <body>
+
     <main class="container">
+
       <form name="taskForm">
         <label for="name-task">New Task</label>
         <input
           type="text"
           id="new-task"
           name="name-task"
-          placeholder="Enter Task details"
+          placeholder="Enter task details"
           required
         />
-        <button type="submit">Add task</button>
+        <button type="submit">Add Task</button>
       </form>
 
       <section class="task-list" id="taskListContainer">
       </section>
+
     </main>
+
     <div class="status-bar"></div>
 
     <script src="script.js"></script>
   </body>
+
 </html>

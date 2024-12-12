@@ -15,12 +15,14 @@
   }
   
   body {
+    background-color: rgba(0, 145, 255, 0.228);
     height: 100vh;
     position: relative;
   }
   
 
   .container {
+    background-color: white;
     padding: 1rem;
     position: absolute;
     top: 50%;
@@ -112,6 +114,8 @@
     box-shadow: 1px 1px 1px gray;
     display: flex;
     align-items: center;
+
+    
   }
   
   .task-item:hover {
@@ -119,11 +123,20 @@
   }
   
   .task-item button {
-    background-color: crimson;
     padding: 0.1rem 0.25rem;
+    /* margin-left: auto; */
+  }
+
+  .task-item .update-task {
+    background-color: rgb(80, 115, 28);
     margin-left: auto;
   }
   
+  .task-item .delete-task {
+    background-color: crimson;
+    margin-left: 1rem;
+  }
+
   .status-bar {
     width: 100%;
     position: fixed;
