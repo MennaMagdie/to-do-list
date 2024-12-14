@@ -31,15 +31,30 @@ function updateLocalStorage() {
 function updateDOM() {
     taskListContainer.innerHTML = "";
 
-    taskList.forEach((task) => {
-        renderTask(task);
+    taskList.forEach((task, index) => {
+        const newElement = document.createElement("div");
+
+        if (index === taskList.length - 1) {
+            newElement.classList.add("animate");
+        }
+
+        renderTask(newElement, task);
+
+        if (index === taskList.length - 1) {
+            setTimeout(() => {
+                newElement.classList.remove("animate");
+            }, 250); 
+        }
     });
+
 }
 
-function renderTask(task) {
+function renderTask(newElement, task) {
 
-    const newElement = document.createElement("div");
-    newElement.className = "task-item-container";
+    // const newElement = document.createElement("div");
+    // newElement.className = "task-item-container";
+    // newElement.classList.add("animate");
+    newElement.classList.add("task-item-container");
 
     const taskText = document.createElement("p");
     taskText.innerText = task;

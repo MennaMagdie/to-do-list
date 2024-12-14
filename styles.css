@@ -101,11 +101,6 @@
       scale: 1;
     }
   }
-
-  .animate {
-    animation-name: fadeIn;
-    animation-duration: 250ms;
-  }
   
   .task-item {
     border: 1px solid var(--bg-light);
@@ -126,6 +121,11 @@
     align-items: center;
 
     
+  }
+
+  .animate {
+    animation-name: fadeIn;
+    animation-duration: 250ms;
   }
   
   .task-item:hover {
